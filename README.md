@@ -1,71 +1,46 @@
-# AVD Experience Tool — GitHub Pages
+# AVD Experience Tool
 
-Deze versie is volledig statisch en kan rechtstreeks op GitHub Pages worden gepubliceerd. Er is geen backend, buildstap, `npm install` of API-sleutel nodig.
+AVD Experience Tool is a lightweight and web-based Azure Virtual Desktop region performance tool created by Justin Verstijnen. This tool can be used to compare the response times of different AVD regions directly from your device. It measures the response times using HTTPS requests from your browser.
 
-## Bestandsstructuur
+## Main features
 
-```text
-index.html
-assets/
-  app.js
-  measurement.mjs
-  regions.mjs
-  style.css
-  avd.css
-tests/
-  measurement.test.mjs
-  regions.test.mjs
-README.md
-LICENSE
-.nojekyll
-```
+The main features of this tool are:
 
-## Publiceren op GitHub Pages
+- Compare different Azure Virtual Desktop regions
+- Automatically measure the response time of each configured region
+- Displays information like:
+   - Azure region
+   - Location
+   - Median HTTPS response time
+   - Measurement result
+- Restart the lookup
+- Export the lookup information to JSON
 
-1. Maak een publieke of (indien jouw GitHub-abonnement dat ondersteunt) private GitHub-repository aan.
-2. Upload **de inhoud van deze ZIP** naar de **root** van de repository, zodat `index.html` in de hoofdmap staat en niet in een extra submap.
-3. Ga in GitHub naar **Settings → Pages**.
-4. Kies bij **Build and deployment → Source** voor **Deploy from a branch**.
-5. Selecteer de branch **main** en de map **/(root)**, en klik op **Save**.
-6. Open na publicatie het door GitHub Pages weergegeven adres, meestal `https://<gebruikersnaam>.github.io/<repositorynaam>/`.
+## Hosting
 
-De CSS en modules gebruiken relatieve paden (`./assets/...`). Dit werkt ook wanneer GitHub Pages de website onder een repositorynaam publiceert. De lege `.nojekyll` schakelt verwerking door Jekyll uit.
+This tool can be hosted on GitHub Pages. Configuration changes can be pushed and built using the default deployment method. Place `index.html` in the root of your repository and enable GitHub Pages under **Settings > Pages**.
 
-## Lokaal testen
+## Technical Architecture
 
-Open `index.html` niet rechtstreeks via `file://` omdat JavaScript-modules normaal via HTTP(S) moeten worden geladen. Start bijvoorbeeld in de hoofdmap een lokale webserver:
+- **Languages** : HTML, CSS, Javascript
+- **Platform** : GitHub Pages
+- **Runtime model** : Serverless
+- **Dependencies** : None
 
-```bash
-python -m http.server 8000
-```
+## Changelog/new features
 
-Open vervolgens `http://localhost:8000`.
+New features to this tool are added when needed or if the tool is broken.
 
-Voor de meegeleverde automatische tests (Node.js vereist):
+Feature requests can be done by submitting issues into GitHub.
 
-```bash
-node --test tests/*.test.mjs
-```
+## Issues
 
-## Werking
+It's possible to submit any issues using the GitHub issues system.
 
-- De meting begint automatisch bij het openen van de pagina.
-- Per regio wordt één opwarmverzoek verstuurd gevolgd door vijf metingen; de tabel toont de mediane gemeten HTTPS-responstijd.
-- **Restart lookup** annuleert de huidige ronde en begint opnieuw.
-- **Export** downloadt de beschikbare resultaten als JSON.
-- Verborgen browsertabs pauzeren de meting. Samples rond zichtbaarheidsovergangen worden opnieuw gedaan.
-- Regio's zonder geverifieerd testendpoint krijgen geen verzonnen meetwaarde.
+The tool measures HTTPS response times, not actual RDP or ICMP latency. Results can be affected by the browser, network connection, VPN or proxy. Some regions do not have a verified test endpoint. The logo and background image are loaded from an external host.
 
-De regio-indeling staat in `assets/regions.mjs`. De opgegeven regionale gateway-endpoints zijn afkomstig uit de oorspronkelijke bron en werden volgens die bron op 28 oktober 2026 geverifieerd; Microsoft kan deze endpoints wijzigen.
+## License
 
-### Meetbeperkingen
+This project is licensed under the **MIT license**. This means that the software is open source and can be used to run the tool yourself.
 
-De meting is een HTTPS-responstijd vanuit de browser, **geen echte RDP- of ICMP-RTT** naar een sessiehost. Browserbeveiliging, proxy, DNS, TLS of VPN kunnen het resultaat beïnvloeden. Door `no-cors` kan de browser de HTTP-status van een ontvangen opaque response niet uitlezen; een response bevestigt daarom niet dat de dienst gezond is.
-
-Alle metingen gebeuren client-side. Meetresultaten blijven in de browser tot de gebruiker ze eventueel exporteert. De externe gatewayservers zien het IP-adres waarvan de verzoeken komen.
-
-**Externe middelen:** het logo en de achtergrondafbeelding worden nog steeds geladen vanaf de publieke Azure Blob Storage van de oorspronkelijke website. Die afbeeldingen zijn daarom niet in `assets/` opgeslagen en vereisen toegang tot die externe host.
-
-## Licentie
-
-MIT — zie [LICENSE](./LICENSE). Oorspronkelijke tool en vormgeving door Justin Verstijnen.
+Use at your own risk. No guarantees or official support are provided.
